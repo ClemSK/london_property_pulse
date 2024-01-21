@@ -2,7 +2,7 @@
 A London property analytics dashboard
 
 ### Project motivation
-Use a Go server to scrape data, process it and produces data analytics.
+Use Go to scrape data, process it and produce data analytics.
 
 ### Tech
 - [Go](https://go.dev/)
