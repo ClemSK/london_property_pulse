@@ -3,44 +3,94 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-  args_bin = []
-  bin = "./tmp/main"
-  cmd = "go build -o ./tmp/main ."
-  delay = 1000
-  exclude_dir = ["assets", "tmp", "vendor", "testdata"]
-  exclude_file = []
-  exclude_regex = ["_test.go"]
-  exclude_unchanged = false
-  follow_symlink = false
-  full_bin = ""
-  include_dir = []
-  include_ext = ["go", "tpl", "tmpl", "html"]
-  include_file = []
-  kill_delay = "0s"
-  log = "build-errors.log"
-  poll = false
-  poll_interval = 0
-  post_cmd = []
-  pre_cmd = []
-  rerun = false
-  rerun_delay = 500
-  send_interrupt = false
-  stop_on_error = false
+# Array of commands to run before each build
+# pre_cmd = ["echo 'hello air' > pre_cmd.txt"]
+  
+# Just plain old shell command. You could use `make` as well.
+cmd = "go build -o ./tmp/main ."
+  
+# Array of commands to run after ^C
+# post_cmd = ["echo 'hello air' > post_cmd.txt"]
+  
+# Binary file yields from `cmd`.
+bin = "tmp/main"
+
+# Customize binary, can setup environment variables when run your app.
+# full_bin = "APP_ENV=dev APP_USER=air ./tmp/main"
+  
+# Add additional arguments when running binary (bin/full_bin). Will run './tmp/main hello world'.
+args_bin = []
+
+# Watch these filename extensions.
+include_ext = ["go", "tpl", "tmpl", "html"]
+
+# Ignore these filename extensions or directories.
+exclude_dir = ["assets", "tmp", "vendor", "frontend/node_modules", "testdata"]
+
+# Watch these directories if you specified.
+include_dir = []
+
+# Watch these files.
+include_file = []
+
+# Exclude files.
+exclude_file = []
+
+# Exclude specific regular expressions.
+exclude_regex = ["_test\\.go"]
+
+# Exclude unchanged files.
+exclude_unchanged = true
+
+# Follow symlink for directories
+follow_symlink = true
+
+# This log file places in your tmp_dir.
+log = "air.log"
+
+# Poll files for changes instead of using fsnotify.
+poll = false
+
+# Poll interval (defaults to the minimum interval of 500ms).
+poll_interval = 500 # ms
+
+# Delay after each execution
+delay = 500
+
+# Stop running old binary when build errors occur.
+stop_on_error = true
+
+# Send Interrupt signal before killing process (windows does not support this feature)
+send_interrupt = false
+
+# Delay after sending Interrupt signal
+kill_delay = 500 # nanosecond
+
+# Rerun binary or not
+rerun = false
+
+# Delay after each execution
+rerun_delay = 500
 
 [color]
-  app = ""
-  build = "yellow"
-  main = "magenta"
-  runner = "green"
-  watcher = "cyan"
+# Customize each part's color. If no color found, use the raw app log.
+app = ""
+build = "yellow"
+main = "magenta"
+runner = "green"
+watcher = "cyan"
 
 [log]
-  main_only = false
-  time = false
+# Show log time
+time = false
+  
+# Only show main log (silences watcher, build, runner)
+main_only = false
 
 [misc]
-  clean_on_exit = false
+# Delete tmp directory on exit
+clean_on_exit = true
 
 [screen]
-  clear_on_rebuild = false
-  keep_scroll = true
+clear_on_rebuild = false
+keep_scroll = true

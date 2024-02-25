@@ -6,7 +6,7 @@ Use Go to scrape data, process it and produce data analytics.
 
 ### Tech
 - [Go](https://go.dev/)
-    - [Chi](https://github.com/go-chi/chi): Router
+    - Upgraded net/http router from 1.22
     - [Air](https://github.com/cosmtrek/air): Live reload utility
     - [Colly](https://github.com/gocolly/colly): Scraping framework
     - [Rod](https://github.com/go-rod/rod): Browser automation
@@ -18,6 +18,3 @@ Use Go to scrape data, process it and produce data analytics.
 - [HTMX](https://htmx.org/): HTML as hypertext
     - [Book](https://hypermedia.systems/book/contents/)
 - [Templ](https://templ.guide): Templating language
-
-
-

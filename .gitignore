@@ -8,6 +8,9 @@
 *.so
 *.dylib
 
+node_modules
+
+vscode
 .vscode
 
 # Test binary, built with `go test -c`
