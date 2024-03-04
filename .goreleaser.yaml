@@ -1,3 +1,5 @@
+# WIP - review this file 
+
 builds:
   - goos: linux
     goarch: amd64
