@@ -1,42 +1,46 @@
-# WIP - review this file 
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
 
-builds:
-  - goos: linux
-    goarch: amd64
-  - goos: darwin
-    goarch: amd64
-  # Add more builds for other architectures if needed
+# The lines below are called `modelines`. See `:help modeline`
+# Feel free to remove those if you don't want/need to use them.
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+# vim: set ts=2 sw=2 tw=0 fo=cnqoj
 
-dockers:
-  - image_templates:
-    - "{{ .ProjectName }}:{{ .Tag }}"
-  - goos: linux
-    goarch: amd64
-  - goos: darwin
-    goarch: amd64
-  # Add more dockers definitions for other builds
+version: 1
 
 before:
   hooks:
-    - make lint  # Replace with your linting command (optional)
-    - make test  # Replace with your testing command
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+    # you may remove this if you don't need go generate
+    - go generate ./...
 
-releases:
-  - name: release
-    channels:
-      - stable
-    builds:
-      - ./...
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
 
-# Optional: Configuration for signing and publishing to registries (adjust accordingly)
-# secrets:
-#   - gpg_key: ${env:GPG_KEY}
-#   - docker_username: ${env:DOCKER_USERNAME}
-#   - docker_password: ${env:DOCKER_PASSWORD}
-#
-# publishes:
-#   - name: docker
-#     build: "{{ .ProjectName }}:{{ .Tag }}"
-#     provider: docker
-#       username: "{{ secrets.docker_username }}"
-#       password: "{{ secrets.docker_password }}"
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
