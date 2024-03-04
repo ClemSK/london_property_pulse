@@ -1,0 +1,40 @@
+builds:
+  - goos: linux
+    goarch: amd64
+  - goos: darwin
+    goarch: amd64
+  # Add more builds for other architectures if needed
+
+dockers:
+  - image_templates:
+    - "{{ .ProjectName }}:{{ .Tag }}"
+  - goos: linux
+    goarch: amd64
+  - goos: darwin
+    goarch: amd64
+  # Add more dockers definitions for other builds
+
+before:
+  hooks:
+    - make lint  # Replace with your linting command (optional)
+    - make test  # Replace with your testing command
+
+releases:
+  - name: release
+    channels:
+      - stable
+    builds:
+      - ./...
+
+# Optional: Configuration for signing and publishing to registries (adjust accordingly)
+# secrets:
+#   - gpg_key: ${env:GPG_KEY}
+#   - docker_username: ${env:DOCKER_USERNAME}
+#   - docker_password: ${env:DOCKER_PASSWORD}
+#
+# publishes:
+#   - name: docker
+#     build: "{{ .ProjectName }}:{{ .Tag }}"
+#     provider: docker
+#       username: "{{ secrets.docker_username }}"
+#       password: "{{ secrets.docker_password }}"
